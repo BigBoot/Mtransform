@@ -28,14 +28,21 @@ func MultiplyTransforms(a Transform, b Transform) Transform {
 	var t Transform
 	for i := 0; i < 3; i++ {
 		for j := 0; j < 3; j++ {
-			t[i][j] = t[i][j] + a[i][j]*b[j][i]
+			for k := 0; k < 3; k++ {
+				t[i][j]= t[i][j] +(a[i][k] * b[k][j]);
+			}
 		}
 	}
 	return t
 }
 
 func (a *Transform) MultiplyWith(b Transform) {
-	*a = MultiplyTransforms(*a, b)
+	res := MultiplyTransforms(*a, b)
+	for i := 0; i < 3; i++ {
+		for j := 0; j < 3; j++ {
+			a[i][j] = res[i][j]
+		}
+	}
 }
 
 func (t *Transform) Scale(x float64, y float64) {
